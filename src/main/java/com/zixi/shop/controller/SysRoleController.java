@@ -20,7 +20,7 @@ import com.zixi.shop.service.SysRoleService;
  * @date 2020-09-26 23:04:17
  */
 @RestController
-@RequestMapping("shop/role")
+@RequestMapping("/role")
 public class SysRoleController {
     @Autowired
     private SysRoleService sysRoleService;
