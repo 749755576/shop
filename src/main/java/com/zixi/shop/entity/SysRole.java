@@ -1,5 +1,6 @@
 package com.zixi.shop.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -22,7 +23,7 @@ public class SysRole implements Serializable {
 	/**
 	 * 角色ID
 	 */
-	@TableId
+	@TableId(value = "role_id",type = IdType.AUTO)
 	private Long roleId;
 	/**
 	 * 角色名称
@@ -35,7 +36,7 @@ public class SysRole implements Serializable {
 	/**
 	 * 权限范围(0:拥有全部权限 1:自定义权限)
 	 */
-	private String dataScope;
+	private Integer dataScope;
 	/**
 	 * 角色状态（0正常 1停用）
 	 */
@@ -43,7 +44,7 @@ public class SysRole implements Serializable {
 	/**
 	 * del_flag
 	 */
-	private String delFlag;
+	private Integer delFlag;
 	/**
 	 * 创建者
 	 */

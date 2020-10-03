@@ -34,7 +34,7 @@ public class SysUserController {
      * @return
      */
     @GetMapping("/getUserList")
-    @RequiresPermissions("system:user:list")
+    @RequiresPermissions("system:user:getList")
     public TableResultData getUserList(@Valid PagePar pagePar,String loginName){
         return sysUserService.getUserList(pagePar,loginName);
     }
