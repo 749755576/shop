@@ -40,7 +40,7 @@ public class SysRole implements Serializable {
 	/**
 	 * 角色状态（0正常 1停用）
 	 */
-	private String status;
+	private Integer status;
 	/**
 	 * del_flag
 	 */

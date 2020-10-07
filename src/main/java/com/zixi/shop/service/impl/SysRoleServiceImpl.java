@@ -20,6 +20,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zixi.shop.dao.SysRoleMapper;
 import com.zixi.shop.entity.SysRole;
 import com.zixi.shop.service.SysRoleService;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -54,6 +56,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
+    @Transactional
     public AppResultData delRoleById(Long roleId) {
         if (roleId==null){
             return AppResultData.errorMessage("角色Id为空");
@@ -65,6 +68,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
+    @Transactional
     public AppResultData addRole(AddRoleVo addRoleVo) {
         Map<String, Object> columnMap = new HashMap<>();
         columnMap.put("role_name", addRoleVo.getRoleName());
@@ -84,6 +88,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
+    @Transactional
     public AppResultData upRoleById(UpRoleVo upRoleVo) {
         if (upRoleVo.getRoleId()==null){
             return AppResultData.errorMessage("角色Id为空");
@@ -102,6 +107,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
+    @Transactional
     public AppResultData setRole(SetRoleVo setRoleVo) {
         if (setRoleVo.getRoleId()==null){
             return AppResultData.errorMessage("角色ID为空");
@@ -120,8 +126,30 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         queryWrapper
                 .eq("del_flag",0)
                 .eq("status",0);
-        sysRoleMapper.selectList(queryWrapper);
-        return null;
+        List<SysRole> sysRoles = sysRoleMapper.selectList(queryWrapper);
+        return AppResultData.success("成功",sysRoles);
+    }
+
+    @Override
+    @Transactional
+    public AppResultData upRoleStatusById(Long roleId, Integer status) {
+        if (roleId==null){
+            return AppResultData.errorMessage("角色Id为空");
+        }
+        SysRole sysRole=new SysRole();
+        sysRole.setRoleId(roleId);
+        if (status==0){
+            //为防止进入else（失败）,所以不可以在上面直接赋值更新时间
+            sysRole.setUpdateTime(new Date());
+            sysRole.setStatus(1);
+        }else if (status==1){
+            sysRole.setUpdateTime(new Date());
+            sysRole.setStatus(0);
+        }else {
+            return AppResultData.errorMessage("修改角色状态失败");
+        }
+        sysRoleMapper.updateById(sysRole);
+        return AppResultData.successMessage("修改角色状态成功");
     }
 
     /**

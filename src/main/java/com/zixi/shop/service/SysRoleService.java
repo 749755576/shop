@@ -58,5 +58,13 @@ public interface SysRoleService extends IService<SysRole> {
      * @return
      */
     AppResultData getRole();
+
+    /**
+     * 修改角色状态
+     * @param roleId
+     * @param status
+     * @return
+     */
+    AppResultData upRoleStatusById(Long roleId, Integer status);
 }
 

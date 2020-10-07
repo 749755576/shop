@@ -3,14 +3,10 @@ package com.zixi.shop.controller;
 import com.zixi.shop.common.AppResultData;
 import com.zixi.shop.common.PagePar;
 import com.zixi.shop.common.TableResultData;
-import com.zixi.shop.entity.vo.AddUserVo;
-import com.zixi.shop.entity.vo.UpUserVo;
+import com.zixi.shop.entity.vo.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.zixi.shop.service.SysUserService;
 import javax.validation.Valid;
 
@@ -42,13 +38,13 @@ public class SysUserController {
 
     /**
      * 删除单个用户
-     * @param userId
+     * @param delUserByIdVo
      * @return
      */
     @PostMapping("/delUserById")
     @RequiresPermissions("system:user:delById")
-    public AppResultData delUserById(Long userId){
-        return sysUserService.delUserById(userId);
+    public AppResultData delUserById(@RequestBody DelUserByIdVo delUserByIdVo){
+        return sysUserService.delUserById(delUserByIdVo);
     }
 
     /**
@@ -58,7 +54,7 @@ public class SysUserController {
      */
     @PostMapping("/upUserById")
     @RequiresPermissions("system:user:upById")
-    public AppResultData upUserById(UpUserVo upUserVo){
+    public AppResultData upUserById(@RequestBody UpUserVo upUserVo){
         return sysUserService.upUserById(upUserVo);
     }
 
@@ -69,19 +65,19 @@ public class SysUserController {
      */
     @PostMapping("/addUser")
     @RequiresPermissions("system:user:add")
-    public AppResultData addUser(AddUserVo addUserVo) {
+    public AppResultData addUser(@RequestBody AddUserVo addUserVo) {
         return sysUserService.addUser(addUserVo);
     }
 
     /**
      * 修改单个用户状态
-     * @param userId
+     * @param upUserStatusByIdVo
      * @return
      */
     @PostMapping("/upUserStatusById")
     @RequiresPermissions("system:user:upUserStatusById")
-    public AppResultData upUserStatusById(Long userId,Integer status) {
-        return sysUserService.upUserStatusById(userId,status);
+    public AppResultData upUserStatusById(@RequestBody UpUserStatusByIdVo upUserStatusByIdVo) {
+        return sysUserService.upUserStatusById(upUserStatusByIdVo);
     }
 
     /**
@@ -104,6 +100,17 @@ public class SysUserController {
     @RequiresPermissions("system:user:upUserStatusList")
     public AppResultData upUserStatusList(String userId,Integer status) {
         return sysUserService.upUserStatusList(userId,status);
+    }
+
+    /**
+     * 重置用户密码
+     * @param upUserPasswordByIdVo
+     * @return
+     */
+    @PostMapping("/upUserPasswordById")
+    @RequiresPermissions("system:user:upUserPasswordById")
+    public AppResultData upUserPasswordById(@RequestBody UpUserPasswordByIdVo upUserPasswordByIdVo) {
+        return sysUserService.upUserPasswordById(upUserPasswordByIdVo);
     }
 
 }

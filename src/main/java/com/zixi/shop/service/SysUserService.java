@@ -5,8 +5,7 @@ import com.zixi.shop.common.AppResultData;
 import com.zixi.shop.common.PagePar;
 import com.zixi.shop.common.TableResultData;
 import com.zixi.shop.entity.SysUser;
-import com.zixi.shop.entity.vo.AddUserVo;
-import com.zixi.shop.entity.vo.UpUserVo;
+import com.zixi.shop.entity.vo.*;
 
 import java.net.UnknownHostException;
 import java.util.Map;
@@ -28,10 +27,10 @@ public interface SysUserService extends IService<SysUser> {
 
     /**
      *删除单个用户
-     * @param userId
+     * @param delUserByIdVo
      * @return
      */
-    AppResultData delUserById(Long userId);
+    AppResultData delUserById(DelUserByIdVo delUserByIdVo);
 
     /**
      * 修改用户
@@ -44,17 +43,17 @@ public interface SysUserService extends IService<SysUser> {
 
     /**
      * 添加用户
-     * @param sysUser
+     * @param addUserVo
      * @return
      */
     AppResultData addUser(AddUserVo addUserVo);
 
     /**
      * 修改用户状态
-     * @param userId
+     * @param upUserStatusByIdVo
      * @return
      */
-    AppResultData upUserStatusById(Long userId,Integer status);
+    AppResultData upUserStatusById(UpUserStatusByIdVo upUserStatusByIdVo);
 
     /**
      * 批量删除用户
@@ -70,5 +69,12 @@ public interface SysUserService extends IService<SysUser> {
      * @return
      */
     AppResultData upUserStatusList(String userId, Integer status);
+
+    /**
+     * 重置用户密码
+     * @param upUserPasswordByIdVo
+     * @return
+     */
+    AppResultData upUserPasswordById(UpUserPasswordByIdVo upUserPasswordByIdVo);
 }
 

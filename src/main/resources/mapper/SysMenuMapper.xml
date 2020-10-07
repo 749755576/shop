@@ -45,7 +45,6 @@
             sys_menu m
         WHERE
             m.menu_type IN ('M', 'C')
-        AND m.visible = 0
         ORDER BY
             m.parent_id,
             m.order_num
@@ -68,7 +67,39 @@
         LEFT JOIN sys_user_role ur ON rm.role_id = ur.role_id
         LEFT JOIN sys_role ro ON ur.role_id = ro.role_id
         WHERE
-            ur.user_id = #{userId} and m.menu_type in ('M', 'C') and m.visible = 0  AND ro.status = 0
+            ur.user_id = #{userId} and m.menu_type in ('M', 'C') AND ro.status = 0
+        ORDER BY
+            m.parent_id,
+            m.order_num
+    </select>
+    <select id="selectResourceByRoleId" parameterType="long" resultMap="menuMap">
+        SELECT
+            m.menu_name
+        FROM
+            sys_menu m
+        LEFT JOIN sys_role_menu rm ON m.menu_id = rm.menu_id
+        WHERE
+            rm.role_id = #{roleId}
+        ORDER BY
+            m.parent_id,
+            m.order_num
+    </select>
+    <select id="selectMenuAll" resultMap="menuMap">
+        SELECT DISTINCT
+            m.menu_id,
+            m.parent_id,
+            m.menu_name,
+            m.url,
+            m.visible,
+            ifnull(m.perms, '') AS perms,
+            m.menu_type,
+            m.icon,
+            m.order_num,
+            m.create_time
+        FROM
+            sys_menu m
+        WHERE
+            m.menu_type IN ('M', 'C','F')
         ORDER BY
             m.parent_id,
             m.order_num

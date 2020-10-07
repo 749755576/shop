@@ -56,7 +56,7 @@ public class SysRoleController {
     }
 
     /**
-     * 删除单个角色
+     * 删除角色
      * @param roleId
      * @return
      */
@@ -97,6 +97,17 @@ public class SysRoleController {
     @RequiresPermissions("system:role:upById")
     public AppResultData upRoleById(UpRoleVo upRoleVo){
         return sysRoleService.upRoleById(upRoleVo);
+    }
+
+    /**
+     * 修改角色状态
+     * @param roleId
+     * @return
+     */
+    @PostMapping("/upRoleStatusById")
+    @RequiresPermissions("system:role:upRoleStatusById")
+    public AppResultData upRoleStatusById(Long roleId,Integer status) {
+        return sysRoleService.upRoleStatusById(roleId,status);
     }
 
 

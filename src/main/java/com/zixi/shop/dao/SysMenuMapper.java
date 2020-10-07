@@ -22,7 +22,29 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
      */
     List<String> selectPermsByUserId(Long userId);
 
+    /**
+     * 查询所有菜单
+     * @return
+     */
     List<SysMenu> selectMenuNormalAll();
 
+    /**
+     * 根据用户ID查询所拥有的菜单权限
+     * @param userId
+     * @return
+     */
     List<SysMenu> selectMenusByUserId(Long userId);
+
+    /**
+     * 根据角色ID查询所拥有的菜单权限
+     * @param roleId
+     * @return
+     */
+    List<SysMenu> selectResourceByRoleId(Long roleId);
+
+    /**
+     * 查询所有菜单，包括按钮
+     * @return
+     */
+    List<SysMenu> selectMenuAll();
 }

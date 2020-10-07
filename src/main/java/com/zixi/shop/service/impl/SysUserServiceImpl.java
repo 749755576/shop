@@ -10,8 +10,7 @@ import com.zixi.shop.common.TableResultData;
 import com.zixi.shop.config.shiro.ShiroUtils;
 import com.zixi.shop.dao.SysUserRoleMapper;
 import com.zixi.shop.entity.SysUserRole;
-import com.zixi.shop.entity.vo.AddUserVo;
-import com.zixi.shop.entity.vo.UpUserVo;
+import com.zixi.shop.entity.vo.*;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +20,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zixi.shop.dao.SysUserMapper;
 import com.zixi.shop.entity.SysUser;
 import com.zixi.shop.service.SysUserService;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -54,21 +54,24 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
         IPage<SysUser> sele = sysUserMapper.selectPage(new Page<SysUser>(pagePar.getPage(), pagePar.getPageSize()), queryWrapper);
         List<SysUser> seleL = sele.getRecords();
-        return TableResultData.success(sele.getTotal(),seleL);
+        return TableResultData.success(seleL.size(),seleL);
     }
 
     @Override
-    public AppResultData delUserById(Long userId) {
-        if (userId==null){
+    @Transactional
+    public AppResultData delUserById(DelUserByIdVo delUserByIdVo) {
+        if (delUserByIdVo.getUserId()==null){
             return AppResultData.errorMessage("用户Id为空");
         }
             SysUser sysUser=new SysUser();
+            sysUser.setUserId(delUserByIdVo.getUserId());
             sysUser.setDelFlag(1);
             sysUserMapper.updateById(sysUser);
         return AppResultData.successMessage("删除成功");
     }
 
     @Override
+    @Transactional
     public AppResultData upUserById(UpUserVo upUserVo){
         if (upUserVo.getUserId()==null){
             return AppResultData.errorMessage("用户Id为空");
@@ -88,6 +91,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
+    @Transactional
     public AppResultData addUser(AddUserVo addUserVo) {
         Map<String, Object> columnMap = new HashMap<>();
         columnMap.put("login_name", addUserVo.getLoginName());
@@ -110,19 +114,20 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public AppResultData upUserStatusById(Long userId,Integer status) {
-        if (userId==null){
+    @Transactional
+    public AppResultData upUserStatusById(UpUserStatusByIdVo upUserStatusByIdVo) {
+        if (upUserStatusByIdVo.getUserId()==null){
             return AppResultData.errorMessage("用户Id为空");
         }
         SysUser sysUser=new SysUser();
-        sysUser.setUserId(userId);
-        if (status==0){
+        sysUser.setUserId(upUserStatusByIdVo.getUserId());
+        if (upUserStatusByIdVo.getStatus()==0){
             //为防止进入else（失败）,所以不可以在上面直接赋值更新时间
             sysUser.setUpdateTime(new Date());
-            sysUser.setStatus(1);
-        }else if (status==1){
-            sysUser.setUpdateTime(new Date());
             sysUser.setStatus(0);
+        }else if (upUserStatusByIdVo.getStatus()==1){
+            sysUser.setUpdateTime(new Date());
+            sysUser.setStatus(1);
         }else {
             return AppResultData.errorMessage("修改用户状态失败");
         }
@@ -131,6 +136,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
+    @Transactional
     public AppResultData delUserList(String userId) {
         if (userId==null||userId.equals("")){
             return AppResultData.errorMessage("用户Id为空");
@@ -157,6 +163,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
+    @Transactional
     public AppResultData upUserStatusList(String userId, Integer status) {
         if (userId==null||userId.equals("")){
             return AppResultData.errorMessage("用户Id为空");
@@ -183,5 +190,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             }
         }
         return AppResultData.successMessage("修改用户状态成功");
+    }
+
+    @Override
+    public AppResultData upUserPasswordById(UpUserPasswordByIdVo upUserPasswordByIdVo) {
+        if (upUserPasswordByIdVo.getUserId()==null){
+            return AppResultData.errorMessage("用户Id为空");
+        }
+        SysUser sysUser=new SysUser();
+        sysUser.setUserId(upUserPasswordByIdVo.getUserId());
+        sysUser.setPassword(ShiroUtils.generatePwdEncrypt(upUserPasswordByIdVo.getPassword()));
+        sysUserMapper.updateById(sysUser);
+        return AppResultData.successMessage("重置密码成功");
     }
 }

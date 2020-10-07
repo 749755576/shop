@@ -1,5 +1,6 @@
 package com.zixi.shop.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -26,7 +27,7 @@ public class SysMenu implements Serializable {
 	/**
 	 * 菜单ID
 	 */
-	@TableId
+	@TableId(value = "menu_id",type = IdType.AUTO)
 	private Long menuId;
 	/**
 	 * 菜单名称
@@ -51,7 +52,7 @@ public class SysMenu implements Serializable {
 	/**
 	 * 菜单状态（0显示 1隐藏）
 	 */
-	private String visible;
+	private Integer visible;
 	/**
 	 * 权限标识
 	 */
