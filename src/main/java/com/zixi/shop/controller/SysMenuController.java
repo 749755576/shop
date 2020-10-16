@@ -6,10 +6,7 @@ import com.zixi.shop.entity.vo.AddMenuVo;
 import com.zixi.shop.entity.vo.UpMenuVo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.zixi.shop.service.SysMenuService;
 
 
@@ -27,13 +24,23 @@ public class SysMenuController {
     private SysMenuService sysMenuService;
 
     /**
-     * 查询资源列表
+     * 查询树形资源列表
      * @return
      */
     @GetMapping("/getMenuList")
-    @RequiresPermissions("system:menu:getList")
+    @RequiresPermissions("system:menu:getMenuList")
     public AppResultData getMenuList(){
         return sysMenuService.selectMenuList();
+    }
+
+    /**
+     * 查询普通资源列表
+     * @return
+     */
+    @GetMapping("/getList")
+    @RequiresPermissions("system:menu:getList")
+    public AppResultData getList(){
+        return sysMenuService.selectList();
     }
 
     /**
@@ -64,7 +71,7 @@ public class SysMenuController {
      */
     @PostMapping("/upMenuById")
     @RequiresPermissions("system:menu:upById")
-    public AppResultData upMenuById(UpMenuVo upMenuVo){
+    public AppResultData upMenuById(@RequestBody UpMenuVo upMenuVo){
         return sysMenuService.upMenuById(upMenuVo);
     }
 
@@ -75,7 +82,8 @@ public class SysMenuController {
      */
     @PostMapping("/addMenu")
     @RequiresPermissions("system:menu:add")
-    public AppResultData addMenu(AddMenuVo addMenuVo) {
+    public AppResultData addMenu(@RequestBody AddMenuVo addMenuVo) {
+        System.out.println();
         return sysMenuService.addMenu(addMenuVo);
     }
 

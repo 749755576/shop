@@ -27,6 +27,6 @@ public class SysRoleMenu implements Serializable {
 	/**
 	 * 菜单ID
 	 */
-	private Long menuId;
+	private Long id;
 
 }

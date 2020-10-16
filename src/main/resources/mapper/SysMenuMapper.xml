@@ -89,6 +89,7 @@
             m.menu_id,
             m.parent_id,
             m.menu_name,
+            m.remark,
             m.url,
             m.visible,
             ifnull(m.perms, '') AS perms,

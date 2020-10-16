@@ -23,7 +23,7 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
     List<String> selectPermsByUserId(Long userId);
 
     /**
-     * 查询所有菜单
+     * 查询树形资源列表
      * @return
      */
     List<SysMenu> selectMenuNormalAll();

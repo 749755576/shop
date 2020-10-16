@@ -76,6 +76,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     @Transactional
     public AppResultData upMenuById(UpMenuVo upMenuVo) {
+        System.out.println(upMenuVo.getMenuId());
         if (upMenuVo.getMenuId()==null){
             return AppResultData.errorMessage("资源ID为空");
         }
@@ -103,6 +104,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 sysMenuMapper.updateById(sysMenu);
             }
         }else {
+            BeanUtils.copyProperties(upMenuVo,sysMenu);
+            sysMenu.setUpdateTime(new Date());
             sysMenuMapper.updateById(sysMenu);
         }
 
@@ -153,6 +156,14 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
         List<SysMenu> roleMenuByChecked = getChildPerms(menus, 0);
         return AppResultData.success("成功",roleMenuByChecked);
+    }
+
+    @Override
+    public AppResultData selectList() {
+        QueryWrapper queryWrapper=new QueryWrapper();
+        queryWrapper.eq("visible",0);
+        List<SysMenu> sysMenus = sysMenuMapper.selectList(queryWrapper);
+        return AppResultData.success("成功",sysMenus);
     }
 
 

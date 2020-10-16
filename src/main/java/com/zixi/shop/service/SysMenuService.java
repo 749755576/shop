@@ -25,7 +25,7 @@ public interface SysMenuService extends IService<SysMenu> {
     AppResultData selectMenusByUser(SysUser sysUser);
 
     /**
-     * 查询菜单列表
+     * 查询树形资源列表
      * @return
      */
     AppResultData selectMenuList();
@@ -57,5 +57,11 @@ public interface SysMenuService extends IService<SysMenu> {
      * @return
      */
     AppResultData getMenuListByRoleId(Long roleId);
+
+    /**
+     * 查询普通资源列表
+     * @return
+     */
+    AppResultData selectList();
 }
 

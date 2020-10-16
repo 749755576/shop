@@ -82,8 +82,8 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         sysRole.setCreateBy(admin.getLoginName());
         sysRole.setCreateTime(new Date());
         sysRoleMapper.insert(sysRole);
-        int comma = addRoleVo.getMenuId().indexOf(",");
-        setRoleById(comma,addRoleVo.getMenuId(),sysRole.getRoleId());
+        int comma = addRoleVo.getId().indexOf(",");
+        setRoleById(comma,addRoleVo.getId(),sysRole.getRoleId());
         return AppResultData.successMessage("添加成功");
     }
 
@@ -101,8 +101,8 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         QueryWrapper<SysRoleMenu> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("role_id", sysRole.getRoleId());
         sysRoleMenuMapper.delete(queryWrapper);
-        int comma = upRoleVo.getMenuId().indexOf(",");
-        setRoleById(comma,upRoleVo.getMenuId(),sysRole.getRoleId());
+        int comma = upRoleVo.getId().indexOf(",");
+        setRoleById(comma,upRoleVo.getId(),sysRole.getRoleId());
         return AppResultData.successMessage("成功");
     }
 
@@ -115,8 +115,8 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         Map<String, Object> columnMap = new HashMap<>();
         columnMap.put("role_id", setRoleVo.getRoleId());
         sysRoleMapper.deleteByMap(columnMap);
-        int comma = setRoleVo.getMenuId().indexOf(",");
-        setRoleById(comma,setRoleVo.getMenuId(),setRoleVo.getRoleId());
+        int comma = setRoleVo.getId().indexOf(",");
+        setRoleById(comma,setRoleVo.getId(),setRoleVo.getRoleId());
         return AppResultData.successMessage("授权成功");
     }
 
@@ -164,7 +164,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
                 SysRoleMenu sysRoleMenu=new SysRoleMenu();
                 sysRoleMenu.setRoleId(roleId);
                 Long id = Long.valueOf(menuId);
-                sysRoleMenu.setMenuId(id);
+                sysRoleMenu.setId(id);
                 sysRoleMenuMapper.insert(sysRoleMenu);
             }
 
@@ -174,7 +174,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
                 Long id = Long.valueOf(string);
                 SysRoleMenu sysRoleMenu=new SysRoleMenu();
                 sysRoleMenu.setRoleId(roleId);
-                sysRoleMenu.setMenuId(id);
+                sysRoleMenu.setId(id);
                 sysRoleMenuMapper.insert(sysRoleMenu);
             }
         }
